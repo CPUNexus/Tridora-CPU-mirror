@@ -390,8 +390,7 @@ begin
 	if numMode then
 		isValidChar := isDigit(ch)
 	else
-		isValidChar := (ord(ch) >= 32) and
-			(ord(ch) <> 127); (* don't want DEL character *)
+		isValidChar := (ord(ch) >= 32)
 end;
 
 begin
@@ -427,7 +426,7 @@ begin
 			c := chr(key);
 			l := length(strReturn);
 
-			if c = #8 then
+			if (c = #8) or (c = #127) then
 				doBackspace
 			else
 			if isValidChar(c) then

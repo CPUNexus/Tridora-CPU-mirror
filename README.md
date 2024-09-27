@@ -6,7 +6,7 @@ Everything is as simple as possible while still being reasonably useful.
 Everything is open source, so you can read, understand and modify the whole system, hardware and software.
 
 ## Overview
-- Homebrew CPU
+- homebrew CPU
 - Verilog FPGA SoC
 - 32-bit word-oriented stack machine architecture
 - running at 83 MHz on an Arty-A7 board with four clocks per instruction
@@ -17,11 +17,11 @@ Everything is open source, so you can read, understand and modify the whole syst
 - minimal operating system
 - editor, compiler, assembler run natively
 - so you can develop programs directly on the machine
-- small: CPU has 760 lines of verilog, compiler ~9000 LoC
-- Compiler written in Pascal and can compile itself
-- Cross-compiler/-assembler can be compiled with FPC
-- Compiler does its own Pascal dialect with some restrictions and some extensions
-- Emulator available
+- small: CPU has 430 lines of Verilog, compiler ~9000 LoC
+- compiler written in Pascal and can compile itself
+- cross-compiler/-assembler can be compiled with FPC
+- compiler does its own Pascal dialect with some restrictions and some extensions
+- emulator available
 
 ## Demo
 - (Video hello world)
@@ -59,3 +59,11 @@ Everything is open source, so you can read, understand and modify the whole syst
 - most parts of the operating system are contained in the program image
 - file system is very primitive: only contiguous blocks, no subdirectories
 - simple shell reminiscent of TP3.0, edit, compile, run programs
+
+## Building the FPGA bitstream
+- install Vivado (tested with 2024.1)
+- install the package from your board in Vivado (Tools -> Vivado Store -> Boards)
+- run the project creation script in Vivado (Tools -> Run TCL Script -> open "tridoracpu.tcl" in the **rtl/arty-a7 directory**)
+- run synthesis, implementation and bitstream generation (Flow -> Generate Bitstream)
+- program your device (Flow -> Open Hardware Manager), the bitstream file should be in **rtl/arty-a7/tridoracpu.runs/impl_1**
+- the bitstream file for (temporarily) programming your device is named **top.bit**, the file for flashing your device is named **top.bin**
