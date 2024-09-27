@@ -17,7 +17,7 @@ Everything is open source, so you can read, understand and modify the whole syst
 - minimal operating system
 - editor, compiler, assembler run natively
 - so you can develop programs directly on the machine
-- small: CPU has 430 lines of Verilog, compiler ~9000 LoC
+- small: CPU has ~500 lines of Verilog, compiler ~9000 LoC
 - compiler written in Pascal and can compile itself
 - cross-compiler/-assembler can be compiled with FPC
 - compiler does its own Pascal dialect with some restrictions and some extensions
@@ -61,9 +61,9 @@ Everything is open source, so you can read, understand and modify the whole syst
 - simple shell reminiscent of TP3.0, edit, compile, run programs
 
 ## Building the FPGA bitstream
-- install Vivado (tested with 2024.1)
+- install Vivado (known to work with 2020.1, known NOT to work with 2024.1)
 - install the package from your board in Vivado (Tools -> Vivado Store -> Boards)
-- run the project creation script in Vivado (Tools -> Run TCL Script -> open "tridoracpu.tcl" in the **rtl/arty-a7 directory**)
+- start Vivado and open the project file **tridoracpu.xpr** in the **tridoracpu**)
 - run synthesis, implementation and bitstream generation (Flow -> Generate Bitstream)
-- program your device (Flow -> Open Hardware Manager), the bitstream file should be in **rtl/arty-a7/tridoracpu.runs/impl_1**
+- program your device (Flow -> Open Hardware Manager), the bitstream file should be in **tridoracpu/tridoracpu.runs/impl_1**
 - the bitstream file for (temporarily) programming your device is named **top.bit**, the file for flashing your device is named **top.bin**
