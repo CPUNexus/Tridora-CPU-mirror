@@ -23,16 +23,20 @@ Everything is open source, so you can read, understand and modify the whole syst
 - compiler does its own Pascal dialect with some restrictions and some extensions
 - emulator available
 
-## Demo
+## Demos
+### Videos
 - (Video hello world)
 - (Video lines)
-- (Screenshot mandelbrot)
-- (Screenshot conway)
-- (Screenshot image viewer)
+
+### Still Pictures
+
+|Mandelbrot|Image Viewer|Game of Life|
+|---|---|---|
+|![image](https://insignificance.de/tridora/tdr-mandelbrot.jpg)| ![image](https://insignificance.de/tridora/tdr-ara.jpg) | ![image](https://insignificance.de/tridora/tdr-conway.jpg) |
 
 ## Supported Boards
 - Arty A7 (with two PMODs for microSD cards and VGA output)
-- Nexys A7 (not ready yet)
+- Nexys A7 (planned)
 
 ## Pascal Language
 - Wirth Pascal
@@ -62,8 +66,8 @@ Everything is open source, so you can read, understand and modify the whole syst
 
 ## Building the FPGA bitstream
 - install Vivado (known to work with 2020.1, known NOT to work with 2024.1)
-- install the package from your board in Vivado (Tools -> Vivado Store -> Boards)
-- start Vivado and open the project file **tridoracpu.xpr** in the **tridoracpu**)
+- install the package for your board in Vivado (Tools -> Vivado Store -> Boards)
+- start Vivado and open the project file **tridoracpu.xpr** in the **tridoracpu** directory
 - run synthesis, implementation and bitstream generation (Flow -> Generate Bitstream)
 - program your device (Flow -> Open Hardware Manager), the bitstream file should be in **tridoracpu/tridoracpu.runs/impl_1**
 - the bitstream file for (temporarily) programming your device is named **top.bit**, the file for flashing your device is named **top.bin**
