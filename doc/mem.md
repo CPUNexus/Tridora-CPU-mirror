@@ -19,8 +19,7 @@ The lower two bits of the address can be viewed as a byte address (0-3) within t
 
 The _BSEL_ and _BPLC_ instructions are designed to assist with accessing bytes within a word.
 
-Because memory is always accessed in words, the CPU is neither big-endian nor little-endian. However, the _BSEL_ and _BPLC_
-instructions are big-endian when accessing bytes within a word, so the system can be considered big-endian.
+The byte ordering is big-endian.
 
 ## Accessing the I/O Area
 The I/O area organizes memory slightly different. Here, pointing out individual bytes is not very useful, so the I/O controllers use register addresses with increments of one. In practice, there is only the VGA framebuffer controller which uses multiple registers.

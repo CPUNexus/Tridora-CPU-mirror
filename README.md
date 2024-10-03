@@ -6,8 +6,7 @@ Everything is as simple as possible while still being reasonably useful.
 Everything is open source, so you can read, understand and modify the whole system, hardware and software.
 
 ## Overview
-- homebrew CPU
-- Verilog FPGA SoC
+- homebrew CPU written in Verilog implemented on an FPGA
 - 32-bit word-oriented stack machine architecture
 - running at 83 MHz on an Arty-A7 board with four clocks per instruction
 - has its own instruction set architecture, compatible with nothing
@@ -25,10 +24,13 @@ Everything is open source, so you can read, understand and modify the whole syst
 
 ## Demos
 ### Videos
-- (Video hello world)
-- (Video lines)
 
-### Still Pictures
+|Compiling and Running Hello-World|Moving Lines Demo|
+|---|---|
+|<video src="https://insignificance.de/tridora/tdr-hello.mp4" controls></video>|<video src="https://insignificance.de/tridora/tdr-lines.mp4" controls></video>|
+
+
+### Pictures
 
 |Mandelbrot|Image Viewer|Game of Life|
 |---|---|---|
@@ -71,3 +73,11 @@ Everything is open source, so you can read, understand and modify the whole syst
 - run synthesis, implementation and bitstream generation (Flow -> Generate Bitstream)
 - program your device (Flow -> Open Hardware Manager), the bitstream file should be in **tridoracpu/tridoracpu.runs/impl_1**
 - the bitstream file for (temporarily) programming your device is named **top.bit**, the file for flashing your device is named **top.bin**
+
+## Documentation
+- [Instruction Reference](doc/tridoracpu.md)
+- [Memory Layout](doc/mem.md)
+- [SD-Card controller](doc/spisd.md)
+- [VGA controller](doc/vga.md)
+
+More documentation is coming as time permits.
