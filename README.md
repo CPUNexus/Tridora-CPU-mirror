@@ -25,7 +25,7 @@ Everything is open source, so you can read, understand and modify the whole syst
 ## Demos
 ### Videos
 
-|Compiling and Running Hello-World|Moving Lines Demo|
+|Compiling and Running "Hello World"|Moving Lines Demo|
 |---|---|
 |<video src="https://insignificance.de/tridora/tdr-hello.mp4" controls></video>|<video src="https://insignificance.de/tridora/tdr-lines.mp4" controls></video>|
 
@@ -77,7 +77,8 @@ Everything is open source, so you can read, understand and modify the whole syst
 ## Documentation
 - [Instruction Reference](doc/tridoracpu.md)
 - [Memory Layout](doc/mem.md)
+- [UART](doc/uart.md)
 - [SD-Card controller](doc/spisd.md)
 - [VGA controller](doc/vga.md)
 
-More documentation is coming as time permits.
+More documentation is coming, as time permits.

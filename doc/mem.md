@@ -31,6 +31,6 @@ Currently, only I/O slots 0-3 are being used.
 |I/O slot| Address | Controller |
 |--------|---------|------------|
 | 0      | $800    | UART       |
-| 1      | $880    | VGA        |
-| 2      | $900    | SPI-SD     |
+| 1      | $880    | SPI-SD     |
+| 2      | $900    | VGA        |
 | 3      | $980    | IRQC       |
