@@ -27,8 +27,7 @@ Everything is open source, so you can read, understand and modify the whole syst
 
 |Compiling and Running "Hello World"|Moving Lines Demo|
 |---|---|
-|<video src="https://insignificance.de/tridora/tdr-hello.mp4" controls></video>|<video src="https://insignificance.de/tridora/tdr-lines.mp4" controls></video>|
-
+[![image](https://insignificance.de/tridora/tdr-hello-thumb.jpg)](https://insignificance.de/tridora/tdr-hello.mp4)|[![image](https://insignificance.de/tridora/tdr-lines-thumb.jpg)](https://insignificance.de/tridora/tdr-lines.mp4) |
 
 ### Pictures
 
