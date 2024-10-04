@@ -624,7 +624,7 @@ Load variable and increment by 3, putting the new value on top of the stack, kee
 the old value on the stack:
 
 	LOAD 4
-	INC 3
+	INC.S1.X2Y 3
 
 After this sequence, the stack contains the original value of the variable and the
 incremented value.
