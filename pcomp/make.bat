@@ -26,6 +26,8 @@ py pcomp.py ..\progs\reclaim.pas
 py pcomp.py ..\progs\dumpdir.pas
 py pcomp.py ..\progs\partmgr.pas
 py pcomp.py ..\progs\xfer.pas
+sasm ..\lib\rommon.s
+sasm -A ..\lib\rommon.s ..\lib\rom.mem
 
 rem exit /b
 

@@ -2,7 +2,7 @@
 procedure initPlatform;
 begin
 	outputPrefix := '';
-	includePrefix := '..\lib\';
+	includePrefix := '../lib/';
 end;
 
 procedure newString(var s:StringRef;len:integer);

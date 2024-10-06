@@ -1,5 +1,6 @@
 pcomp/*.s
 progs/*.s
+lib/stdlib.s
 tests/*.s
 examples/*.s
 !runtime.s
@@ -22,6 +23,12 @@ sine.pas
 graph1.pas
 graph2.pas
 chase.pas
+pcomp/libgen
+pcomp/lsymgen
+pcomp/pcomp
+pcomp/sasm
+pcomp/sdis
+tridoraemu/tridoraemu
 **/tridoracpu.cache/
 **/tridoracpu.hw/
 **/tridoracpu.ip_user_files/

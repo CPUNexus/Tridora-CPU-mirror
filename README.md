@@ -65,14 +65,25 @@ Everything is open source, so you can read, understand and modify the whole syst
 - file system is very primitive: only contiguous blocks, no subdirectories
 - simple shell reminiscent of TP3.0, edit, compile, run programs
 
+## Building the Compiler
+- you need to have _FPC_ and _Python3_ installed
+- on Linux, you need _make_ installed
+- in the **pcomp** directory, run **make** (or **make.bat** on Windows)
+- on Linux, you can also run **make nativeprogs** and **make examples**
+
+## Getting the ROM image
+- there are two formats for the ROM image, one for the emulator (**rommon.prog**) and one for building the FPGA bitstream (**rom.mem**)
+- to get the **rommon.prog** file, either copy it from the _tridoraemu_ package file or build it
+- to build **rom.mem** and **rommon.prog**, find both files in the **lib** directory after running **make nativeprogs** (or **make.bat**) in the **pcomp** directory (see above)
+
 ## Building the FPGA bitstream
 - install Vivado (known to work with 2020.1, known NOT to work with 2024.1)
 - install the package for your board in Vivado (Tools -> Vivado Store -> Boards)
+- copy the ROM image (**rom.mem**) into the **tridoracpu** directory (see above)
 - start Vivado and open the project file **tridoracpu.xpr** in the **tridoracpu** directory
 - run synthesis, implementation and bitstream generation (Flow -> Generate Bitstream)
 - program your device (Flow -> Open Hardware Manager), the bitstream file should be in **tridoracpu/tridoracpu.runs/impl_1**
 - the bitstream file for (temporarily) programming your device is named **top.bit**, the file for flashing your device is named **top.bin**
-
 ## Documentation
 - [Instruction Reference](doc/tridoracpu.md)
 - [Memory Layout](doc/mem.md)

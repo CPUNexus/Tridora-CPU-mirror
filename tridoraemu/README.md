@@ -5,9 +5,10 @@
 - written in Golang
 
 ## Getting started
-From the command line, run the *tridoraemu* or *tridoraemu.exe* program inside the *tridoraemu* directory (see below for details).
+Download this zipfile: [tridoraemu.zip](https://git.insignificance.de/api/packages/slederer/generic/tridoraemu/0.0.1/tridoraemu.zip).
+It contains the sources, the ROM image, an SD-card image and a precompiled windows binary.
 
-A precompiled binary for Windows is provided. 
+From the command line, run the *tridoraemu* or *tridoraemu.exe* program inside the *tridoraemu* directory (see below for details).
 
 To build the program yourself, you need to have the Go language installed on your system. Building has been tested on Windows and Linux.
 

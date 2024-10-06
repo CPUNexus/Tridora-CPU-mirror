@@ -276,4 +276,4 @@ SHELL_ERR:
 FOUND_MSG:
 	.BYTE " shell.prog ",0
 
-%include corelib.s
+%include "corelib.s"

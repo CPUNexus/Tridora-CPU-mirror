@@ -1185,7 +1185,10 @@ begin
 			intValue := getSymbolValue(value)
 		else
 			intValue := convertNumber(value);
-		emitWord(intValue + current^.offset);
+
+		if intValue <> Unresolved then
+			intValue := intValue + current^.offset;
+		emitWord(intValue);
 
 		current := current^.prev;
 	end;
