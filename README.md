@@ -84,6 +84,10 @@ Everything is open source, so you can read, understand and modify the whole syst
 - run synthesis, implementation and bitstream generation (Flow -> Generate Bitstream)
 - program your device (Flow -> Open Hardware Manager), the bitstream file should be in **tridoracpu/tridoracpu.runs/impl_1**
 - the bitstream file for (temporarily) programming your device is named **top.bit**, the file for flashing your device is named **top.bin**
+
+## Running the Emulator
+See the emulator [README](tridoraemu/README.md).
+
 ## Documentation
 - [Instruction Reference](doc/tridoracpu.md)
 - [Memory Layout](doc/mem.md)
