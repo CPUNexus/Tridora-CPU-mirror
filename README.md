@@ -74,7 +74,7 @@ Everything is open source, so you can read, understand and modify the whole syst
 ## Getting the ROM image
 - there are two formats for the ROM image, one for the emulator (**rommon.prog**) and one for building the FPGA bitstream (**rom.mem**)
 - to get the **rommon.prog** file, either copy it from the _tridoraemu_ package file or build it
-- to build **rom.mem** and **rommon.prog**, find both files in the **lib** directory after running **make nativeprogs** (or **make.bat**) in the **pcomp** directory (see above)
+- for **rom.mem** and **rommon.prog**, find both files in the **lib** directory after running **make nativeprogs** (or **make.bat**) in the **pcomp** directory (see above)
 
 ## Building the FPGA bitstream
 - install Vivado (known to work with 2020.1, known NOT to work with 2024.1)
@@ -94,5 +94,6 @@ See the emulator [README](tridoraemu/README.md).
 - [UART](doc/uart.md)
 - [SD-Card controller](doc/spisd.md)
 - [VGA controller](doc/vga.md)
+- [The Mostly Missing Pascal Programming Guide](doc/pascalprogramming.md)
 
 More documentation is coming, as time permits.
