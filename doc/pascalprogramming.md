@@ -42,23 +42,12 @@ Note that the array _in_ operator will be more inefficient for larger ranges (i.
 ## I/O
 I/O handling in Tridora Pascal is mostly compatible with other Pascal dialects when reading/writing simple variables from/to the console. There are big differences when opening/reading/writing files explicitly.
 
-### The Problem (Rant)
-(see XKCD 927)
-
-In Wirth Pascal, I/O is woefully underspecified, and the record-oriented file I/O primitives are maybe suited for the late 1960s when Pascal was designed, but not for anything else. As a result, all Pascal dialects add their own incompatible functionality, of which the Turbo Pascal variant is probably the most common.
-
-Generally, in Pascal you do not open files, you _reset_ or _rewrite_ them. In Wirth Pascal, you could only get already opened files at the program start (this is the parameter list of the _PROGRAM_ statement). There was no option to close a file, or to specify a filename. File I/O happened with record types and buffer variables with the _get_ and _put_ special procedures. _Rewrite_ truncates a file and prepares it for writing. _Reset_ rewinds the file pointer to the beginning of the file.
-
-UCSD Pascal and DEC Pascal (and likely many others) added a file name parameter to _reset_ and _rewrite_, and added a _close_ special procedure. Turbo Pascal kept the original variants of _reset_ and _rewrite_ but added the _assign_ special procedure to set a file name for a file variable. They also added _close_.
-
-File variables must have a record type, meaning that the file contains a sequence of records of that type (in binary encoding). Since in Wirth Pascal, there are no **string** variables, reading/writing strings is not very well defined, but requires a special file type called **text**. For these text files, the special procedures _read_, _readln_, _write_, _writeln_ exist to read/write scalar types while doing ASCII conversions.
-
-In other Pascal dialects, the special procedures _read_, _readln_, _write_, _'writeln_' operate on strings by reading a line up to an end-of-line character.
-
-I/O errors are not specified at all in Wirth Pascal. In Turbo Pascal, there is the IOResult variable which contains the error code of the last I/O operation. This is only accessible if I/O error checking has been disabled by a compiler directive. Otherwise (the default), an I/O error results in a runtime error and the program being terminated.
-
 ### Tridora's Solution
-The solution in Tridora Pascal is to adopt the scheme that is found in most other programming languages:
+The original Wirth Pascal has very limited file I/O capabilities. Therefore, most Pascal dialects have their own, incompatible extensions for handling file I/O.
+
+In this tradition, Tridora Pascal obviously needs to have its own incompatible file handling.
+
+The goal is to mostly ignore the stuff from other Pascal dialects and instead use something more intuitive and more recognizable from other programming languages:
 - files are sequences of bytes
 - files are used with _open_, _read_/_write_, _close_
 - files can be opened in different modes
@@ -74,6 +63,10 @@ The implementation also has the following properties:
 - for error handling there is a function _IOResult_
 - terminating the program without calling _close_ on open files will lose data
 
+Differences from other Pascal dialects are:
+- there are no _FILE OF_ types
+- no _get_, _put_, _reset_, _rewrite_, _assign_
+ 
 ### Opening Files
 There are five modes for opening files which (hopefully) cover all common use cases:
 - _ModeReadonly_: file is opened only for reading, file must exist
@@ -85,9 +78,11 @@ There are five modes for opening files which (hopefully) cover all common use ca
 Example:
 ```
 var f:file;
+    c:char;
+    a,b:integer;
 
 	open(f, 'myfile.text', ModeReadonly);
-	...
+	read(a,b,c);
 	close(f);
 ```
 
@@ -97,3 +92,23 @@ file variable as a parameter. When you call _IOResult_, an error that may have o
 error is not ackowledged and you do another I/O operation, a runtime error is thrown.
 
 That means you can either write programs without checking for I/O errors, while resting assured that the program will exit if an I/O error occurs. You can also choose to check for errors with _IOResult_ if you want to avoid having runtime errors.
+
+The function _ErrorStr_ from the standard library takes an error code as an argument and returns the corresponding textual description as a string.
+
+Example:
+```
+procedure tryToReadFile;
+var f:file;
+begin
+	open(f, 'myfile.text', ModeReadonly);
+	if IOResult(f) <> IONoError then
+	begin
+		writeln('Could not open file: ', ErrorStr(IOResult(f)));
+		exit;
+	end;
+
+	...
+
+	close(f);
+end;
+```

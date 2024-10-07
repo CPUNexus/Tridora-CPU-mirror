@@ -20,7 +20,13 @@ Everything is open source, so you can read, understand and modify the whole syst
 - compiler written in Pascal and can compile itself
 - cross-compiler/-assembler can be compiled with FPC
 - compiler does its own Pascal dialect with some restrictions and some extensions
-- emulator available
+- emulator available [here](https://gitlab.com/slederer/Tridora-CPU/-/tree/main/tridoraemu)
+
+## Downloads
+- the [source repository](https://gitlab.com/slederer/Tridora-CPU)
+- the [emulator](https://git.insignificance.de/slederer/-/packages/generic/tridoraemu/0.0.1/files/2) (source and windows binary)
+- the [FPGA bitstream](https://git.insignificance.de/slederer/-/packages/generic/tdr-bitstream/0.0.1/files/3) for the Arty-A7-35T board
+- an [SD-card image](https://git.insignificance.de/slederer/-/packages/generic/tdr-cardimage/0.0.1/files/5)
 
 ## Demos
 ### Videos
@@ -36,7 +42,7 @@ Everything is open source, so you can read, understand and modify the whole syst
 |![image](https://insignificance.de/tridora/tdr-mandelbrot.jpg)| ![image](https://insignificance.de/tridora/tdr-ara.jpg) | ![image](https://insignificance.de/tridora/tdr-conway.jpg) |
 
 ## Supported Boards
-- Arty A7 (with two PMODs for microSD cards and VGA output)
+- Arty A7-35T (with two PMODs for microSD cards and VGA output)
 - Nexys A7 (planned)
 
 ## Pascal Language
