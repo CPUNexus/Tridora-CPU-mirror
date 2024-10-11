@@ -22,8 +22,17 @@ Everything is open source, so you can read, understand and modify the whole syst
 - compiler does its own Pascal dialect with some restrictions and some extensions
 - emulator available [here](https://gitlab.com/slederer/Tridora-CPU/-/tree/main/tridoraemu)
 
-## Downloads
+The name comes from a certain fictional monster with three heads. The prefix tri- is greek for three, and the Tridora-CPU
+has three stacks instead of just one like almost all other CPUs.
+It also
+has a strange mixture of features from three different eras of computing:
+- a simple instruction set without integer multiply/divide like an 8-bit CPU
+- speed is like a fast 16-bit CPU, also 16-bit instruction words
+- 32-bit word size from the 32-bit era
+
+## Links/Downloads
 - the [source repository](https://gitlab.com/slederer/Tridora-CPU)
+- the [Hackaday project](https://hackaday.io/project/198324-tridora-cpu) (mostly copy-paste from this README)
 - the [emulator](https://git.insignificance.de/slederer/-/packages/generic/tridoraemu/0.0.1/files/2) (source and windows binary)
 - the [FPGA bitstream](https://git.insignificance.de/slederer/-/packages/generic/tdr-bitstream/0.0.1/files/3) for the Arty-A7-35T board
 - an [SD-card image](https://git.insignificance.de/slederer/-/packages/generic/tdr-cardimage/0.0.1/files/5)
