@@ -3517,6 +3517,9 @@ begin
 		GtEqToken:		begin emitSwap; emitSetIsSubset; end;
 		end;
 
+		if tok in [ EqToken, NotEqToken, LtEqToken, GtEqToken ] then
+			setBaseType(typeA, BooleanType);
+
 		tok := curToken.tokenKind;
 	end;
 end;
@@ -5076,6 +5079,7 @@ end;
 	Otherwise,  you should pass a MemLocation instance where
 	the memLoc field is set to NoMem. A temporary is then created
 	and its MemLocation passed back in optionalDest.
+	FIXME: this is not implemented? A temporary is always created.
 	
 	Argument passing: Args are passed on the eval stack.
 
