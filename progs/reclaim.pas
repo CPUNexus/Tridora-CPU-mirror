@@ -2,15 +2,20 @@
 program reclaim;
 var volname:string;
     ch:char;
-    count:integer;
+    count,areas:integer;
 
 (* we use some stuff internal to stdlib.pas *)
+(* procedure readvolumeblks(volumeid:integer; destbuf:^iobuffer; blkno:integer; blkCount: integer; var error:integer);
+	external;
+procedure writevolumeblks(volumeid:integer; srcbuf:^iobuffer; blkno:integer; blkCount: integer; var error:integer);
+	external; *)
 procedure getdirslot(volumeid:integer;slotNo:integer;var result:DirectorySlot;var error:integer);
 	external;
 procedure putdirslot(volumeid:integer;slotNo:integer;var dirslot:DirectorySlot;var error:integer);
 	external;
 
-procedure scanVolume(volname:string;dryrun:boolean;verbose:boolean;var reclaimCount:integer);
+procedure scanVolume(volname:string;dryrun:boolean;verbose:boolean;
+			var reclaimCount:integer;var freeAreas:integer);
 var volid:integer;
     i:integer;
     error:integer;
@@ -196,6 +201,192 @@ begin
 		else
 			writeln(' reclaimed slots, ', freeAreaCount, ' free regions.');
 	end;
+
+	freeAreas := freeAreaCount;
+end;
+
+function scanDirSlots(volid:integer;startSlot:integer;var dirslot:DirectorySlot;wanted:DirSlotFlags):integer;
+var done:boolean;
+    error:integer;
+    curSlot,lastSlot:integer;
+begin
+	scanDirSlots := 0;
+        curSlot := startSlot;
+	lastSlot := volumeTable[volid].part.dirSize - 1;
+	done := false;
+
+	repeat
+		(* writeln('** getdirslot ', curSlot); *)
+		getdirslot(volid, curSlot, dirslot, error);
+		if wanted <= dirslot.flags then
+		begin
+			scanDirSlots := curSlot;
+			(* writeln('   found'); *)
+			done := true;
+		end
+		else
+		begin
+			curSlot := curSlot + 1;
+			if curSlot > lastSlot then
+				done := true;
+		end;
+	until done;
+end;
+
+procedure crunchVolume(volname:string);
+var volid:integer;
+    extentSize:integer;
+    extentBlocks:integer;
+    fileExtents,fileBlocks:integer;
+    endSlot:integer;
+    i:integer;
+    error:integer;
+    done:boolean;
+    freeStart, occStart:integer;
+    freeSlot:DirectorySlot;
+    occSlot:DirectorySlot;
+    freeSlotNo,occSlotNo:integer;
+    copySlotIdx:integer;
+    clearStart:integer;
+    clearSlotNo:integer;
+    dummy:integer;
+    copyDirSlot:DirectorySlot;
+
+procedure getFileBlocks(slotno:integer;dirslot:DirectorySlot;var startBlock,blockCount:integer);
+begin
+	startBlock := slotno * extentBlocks;
+	blockCount := (511 + dirslot.sizeBytes) div 512;
+	if blockCount = 0 then
+		blockCount := 1; (* can happen if filesize is 0 *)
+end;
+
+procedure copyBlocks(srcBlock,destBlock:integer;blockCount:integer);
+const blocksPerBuf = 8;
+var bufptr:^IOBuffer;
+    curBlocks:integer;
+    error:integer;
+begin
+	new(bufptr);
+
+	while blockCount > 0 do
+	begin
+		if blockCount > blocksPerBuf then
+			curBlocks := blocksPerBuf
+		else
+			curBlocks := blockCount;
+
+		readvolumeblks(volid, bufptr, srcBlock, curBlocks, error);
+		if error <> IONoError then
+		begin
+			writeln('Error reading block ', srcBlock, ' on volume ', volname);
+			blockCount := -9999;
+		end;
+
+		writevolumeblks(volid, bufptr, destBlock, curBlocks, error);
+		if error <> IONoError then
+		begin
+			writeln('Error writing block ', srcBlock, ' on volume ', volname);
+			blockCount := -9999;
+		end;
+
+		srcBlock := srcBlock + curBlocks;
+		destBlock := destBlock + curBlocks;
+		blockCount := blockCount - curBlocks;
+	end;
+
+	dispose(bufptr);
+end;
+
+begin
+	volid := findvolume(volname);
+	if volid < 1 then
+		writeln('Volume ', volname, ' not found.')
+	else
+	begin
+		openvolumeid(volid);
+
+		endSlot := volumeTable[volid].part.dirSize - 1;
+		extentSize := volumeTable[volid].part.extentSize;
+		extentBlocks := extentSize div 512;
+
+		(* start at first dirslot *)
+		i := volumeTable[volid].startSlot;
+		done := false;
+
+		while not done do
+		begin
+			(* find a free slot *)
+			freeSlotNo := scanDirSlots(volid, i, freeSlot, [SlotFree]);
+			if freeSlotNo <> 0 then
+			begin
+				(* writeln('found free slot ', freeSlotNo); *)
+
+				(* find next occupied slot *)
+				occSlotNo := scanDirSlots(volid, freeSlotNo + 1, occSlot, [SlotFirst]);
+				if occSlotNo <> 0 then
+				begin
+					fileExtents := (occSlot.sizeBytes + extentSize - 1) div extentSize;
+					if fileExtents = 0 then fileExtents := 1;
+
+					(* writeln('found occupied slot ', occSlotNo); *)
+
+					(* crunch free space *)
+
+					(* determine volume block of free region start *)
+					getFileBlocks(freeSlotNo, freeSlot, freeStart, dummy);
+					(* determine volume block of file and size in blocks *)
+					getFileBlocks(occSlotNo, occSlot, occStart, fileBlocks);
+					writeln('moving ', occSlot.name,
+						' with ', fileExtents,
+						' extents from ', occSlotNo, ' to ', freeSlotNo);
+					(* writeln('  block: ', occStart, ' to ', freeStart,
+						' blocks: ', fileBlocks, ' extents: ', fileExtents); *)
+
+					(* copy blocks from file to free region, starting at first *)
+					copyBlocks(occStart, freeStart, fileBlocks);
+					(* copy occupied dirslots (first and extent) to free dirslot *)
+					for copySlotIdx := 0 to fileExtents - 1 do
+					begin
+						getdirslot(volid, occSlotNo + copySlotIdx, copyDirSlot, error);
+						if error <> IONoError then
+						begin
+							writeln('Error reading dirslot ', occSlotNo + copySlotIdx);
+							break;
+						end;
+						putdirslot(volid, freeSlotNo + copySlotIdx, copyDirSlot, error);
+						if error <> IONoError then
+						begin
+							writeln('Error writing dirslot ', freeSlotNo + copySlotIdx);
+							break;
+						end;
+					end;
+					(* mark dirslots of moved file as free *)
+					clearStart := occSlotNo;
+					(* check for overlap of new and old file region *)
+					if freeSlotNo + fileExtents > occSlotNo then
+						clearStart := freeSlotNo + fileExtents;
+					for clearSlotNo := clearStart to occSlotNo + fileExtents - 1 do
+					begin
+						(* writeln('clearing dirslot ', clearSlotNo); *)
+						putdirslot(volid, clearSlotNo, freeSlot, error);
+						if error <> IONoError then
+						begin
+							writeln('Error writing dirslot ', clearSlotNo);
+							break;
+						end;
+					end;
+
+					i := i + fileExtents;
+				end
+				else	(* no occupied slot found *)
+					done := true;
+					(* TODO: mark first free slot of last free region as EndScan *)
+			end
+			else	(* no free slot found *)
+				done := true;
+		end;
+		closevolumeid(volid);
+	end;
 end;
 
 begin
@@ -208,7 +399,7 @@ begin
 	end;
 		
 	initDevices;
-	scanVolume(volname, true, true, count);
+	scanVolume(volname, true, true, count, areas);
 
 	if count > 0 then
 	begin
@@ -216,6 +407,15 @@ begin
 		read(ch);
 		writeln;
 		if upcase(ch) = 'Y' then
-			scanVolume(volname, false, false, count);
+			scanVolume(volname, false, false, count, areas);
+	end;
+
+	if areas > 1 then
+	begin
+		write('Free space is fragmented, crunch (y/n)? ');
+		read(ch);
+		writeln;
+		if upcase(ch) = 'Y' then
+			crunchVolume(volname);
 	end;
 end.

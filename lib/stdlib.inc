@@ -79,7 +79,6 @@ type Volume = record
                 partitionId: integer;
                 startSlot: integer;  (* first directory slot known to be in use *)
 		freeSlot: integer;   (* a directory slot that is probably free *)
-                (* dirFile: ^file;      (* pseudo-file for accessing the directory *)
 		dirCache: ^DirBlock;
 		cachedBlock: integer; (* cached volume block number in dirCache *)
 		cacheDirty: boolean;
