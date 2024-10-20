@@ -135,7 +135,11 @@ begin
 end;
 
 procedure getScreenSize;
+var c:char;
 begin
+	(* empty keyboard buffer *)
+	while conavail do read(con, c);
+
 	GetTermSize(screenW, screenH);
 	pageSize := screenH - vMargins;
 	(* set scrolling region - DECSTBM *)
@@ -2463,6 +2467,8 @@ begin
 		close(infile);
 	end;
 
+	open(con, '%RAW', ModeOverwrite);
+
 	initScreen;
 	showScreen;
 
@@ -2471,7 +2477,6 @@ begin
 	else
 		statusMsg('Successfully read file.             Press F1 for help', false, false);
 
-	open(con, '%RAW', ModeOverwrite);
 
 	if errorLine > 0 then
 	begin
