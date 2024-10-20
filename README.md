@@ -113,6 +113,7 @@ See the emulator [README](tridoraemu/README.md).
 - [UART](doc/uart.md)
 - [SD-Card controller](doc/spisd.md)
 - [VGA controller](doc/vga.md)
+- [Using the Shell](doc/shell.md)
 - [The Mostly Missing Pascal Programming Guide](doc/pascalprogramming.md)
 
 More documentation is coming, as time permits.
