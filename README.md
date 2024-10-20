@@ -33,9 +33,9 @@ has a strange mixture of features from three different eras of computing:
 ## Links/Downloads
 - the [source repository](https://gitlab.com/slederer/Tridora-CPU)
 - the [Hackaday project](https://hackaday.io/project/198324-tridora-cpu) (mostly copy-paste from this README)
-- the [emulator](https://git.insignificance.de/slederer/-/packages/generic/tridoraemu/0.0.1/files/2) (source and windows binary)
+- the [emulator](https://git.insignificance.de/slederer/-/packages/generic/tridoraemu/0.0.2/files/8) (source and windows binary)
 - the [FPGA bitstream](https://git.insignificance.de/slederer/-/packages/generic/tdr-bitstream/0.0.1/files/3) for the Arty-A7-35T board
-- an [SD-card image](https://git.insignificance.de/slederer/-/packages/generic/tdr-cardimage/0.0.1/files/5)
+- an [SD-card image](https://git.insignificance.de/slederer/-/packages/generic/tdr-cardimage/0.0.2/files/7)
 
 ## Demos
 ### Videos
