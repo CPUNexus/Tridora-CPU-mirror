@@ -323,6 +323,7 @@ begin
 
 				(* find next occupied slot *)
 				occSlotNo := scanDirSlots(volid, freeSlotNo + 1, occSlot, [SlotFirst]);
+
 				if occSlotNo <> 0 then
 				begin
 					fileExtents := (occSlot.sizeBytes + extentSize - 1) div extentSize;
@@ -379,8 +380,14 @@ begin
 					i := i + fileExtents;
 				end
 				else	(* no occupied slot found *)
+				begin
 					done := true;
-					(* TODO: mark first free slot of last free region as EndScan *)
+					(* mark first free slot of last free region as EndScan *)
+					freeslot.flags := freeslot.flags + [SlotEndScan];
+					putdirslot(volid, freeSlotNo, freeSlot, error);
+					if error <> IONoError then
+						writeln('Error writing dirslot ', clearSlotNo);
+				end
 			end
 			else	(* no free slot found *)
 				done := true;
