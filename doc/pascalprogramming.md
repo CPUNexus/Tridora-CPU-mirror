@@ -56,9 +56,9 @@ The goal is to mostly ignore the stuff from other Pascal dialects and instead us
 The implementation also has the following properties:
 - file variables have the type _file_
 - the _open_ procedure has the file variable, the file name and the mode as parameters
-- _read_/_write_ do ASCII conversion on scalar variables, records and array are processed as binary
+- _read_/_write_ do ASCII conversion on scalar variables, records and arrays are processed as binary
 - enums and booleans are treated as integers
-- _readln_/_writeln_ operate as expected
+- _readln_/_writeln_ operate as expected, that is, they perform _read_/_write_ and then wait for/write a newline sequence
 - other file operations available are _eof_, _eoln_ and _seek_
 - for error handling there is a function _IOResult_
 - terminating the program without calling _close_ on open files will lose data
@@ -111,4 +111,27 @@ begin
 
 	close(f);
 end;
+```
+
+### Read, Readln and Line Input
+In Turbo Pascal, using _read_ (and _readln_) from the console always waits until a complete line has been entered.
+Tridora-Pascal handles this like UCSD-Pascal, that is, it immediately
+returns as soon as the input data is enough to read that variable.
+
+This means, for example:
+- for _char_, _read_ returns after reading one character (i.e. typing a single key)
+- for _integer_ or _real_, _read_ returns after the first non-parsable character, which will then stay in the input buffer
+- for _string_, _read_ returns after a newline (CR) has been entered, which will not be part of the string
+
+So to wait for a single keystroke, you can use:
+```
+var c:char;
+
+    ...
+
+    writeln('Press any key...');
+    read(c);
+
+    ...
+
 ```
