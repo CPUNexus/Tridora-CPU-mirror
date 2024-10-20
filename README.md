@@ -37,6 +37,10 @@ has a strange mixture of features from three different eras of computing:
 - the [FPGA bitstream](https://git.insignificance.de/slederer/-/packages/generic/tdr-bitstream/0.0.1/files/3) for the Arty-A7-35T board
 - an [SD-card image](https://git.insignificance.de/slederer/-/packages/generic/tdr-cardimage/0.0.2/files/7)
 
+Contact the author here: tridoracpu [at] insignificance.de
+
+You can also open a ticket on Gitlab or send a message on Hackaday.
+
 ## Demos
 ### Videos
 
